@@ -45,11 +45,11 @@ public class LoginController extends HttpServlet {
             JsonReader createReader = Json.createReader(req.getReader());
             JsonObject loginObject = createReader.readObject();
             
-            String userId = loginObject.getString("userId");
+            String userName = loginObject.getString("userName");
             String userPassword = loginObject.getString("userPassword");
 
 
-            boolean checkCustomer = loginBo.checkCustomer(userId,userPassword, connection);
+            boolean checkCustomer = loginBo.checkCustomer(userName,userPassword, connection);
             PrintWriter writer = resp.getWriter();
             
             if (checkCustomer) {

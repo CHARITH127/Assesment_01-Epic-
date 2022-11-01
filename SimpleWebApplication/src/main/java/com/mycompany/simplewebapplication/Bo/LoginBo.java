@@ -16,8 +16,8 @@ public class LoginBo {
 
     loginDao dao = new loginDao();
 
-    public boolean checkCustomer(String userId,String password, Connection connection) throws SQLException {
-        boolean searchCustomer = dao.searchCustomer(userId,password, connection);
+    public boolean checkCustomer(String userName,String password, Connection connection) throws SQLException {
+        boolean searchCustomer = dao.searchCustomer(userName,password, connection);
         if (searchCustomer) {
             return true;
         } else {

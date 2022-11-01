@@ -16,11 +16,14 @@ public class Customer {
     private String email;
     private String telephoneNumber;
     private String password;
+    private String createDate;
+    private String createUser;
+    private String lastUpdateDate;
+    private String lastUpdateUser;
 
     public Customer() {
     }
 
-    
     public Customer(String userId, String userName, String address, String email, String telephoneNumber, String password) {
         this.userId = userId;
         this.userName = userName;
@@ -29,8 +32,21 @@ public class Customer {
         this.telephoneNumber = telephoneNumber;
         this.password = password;
     }
-
     
+
+    public Customer(String userId, String userName, String address, String email, String telephoneNumber, String password, String createDate, String createUser, String lastUpdateDate, String lastUpdateUser) {
+        this.userId = userId;
+        this.userName = userName;
+        this.address = address;
+        this.email = email;
+        this.telephoneNumber = telephoneNumber;
+        this.password = password;
+        this.createDate = createDate;
+        this.createUser = createUser;
+        this.lastUpdateDate = lastUpdateDate;
+        this.lastUpdateUser = lastUpdateUser;
+    }
+
     /**
      * @return the userId
      */
@@ -113,6 +129,62 @@ public class Customer {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the createDate
+     */
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    /**
+     * @param createDate the createDate to set
+     */
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    /**
+     * @return the createUser
+     */
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    /**
+     * @param createUser the createUser to set
+     */
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    /**
+     * @return the lastUpdateDate
+     */
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    /**
+     * @param lastUpdateDate the lastUpdateDate to set
+     */
+    public void setLastUpdateDate(String lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    /**
+     * @return the lastUpdateUser
+     */
+    public String getLastUpdateUser() {
+        return lastUpdateUser;
+    }
+
+    /**
+     * @param lastUpdateUser the lastUpdateUser to set
+     */
+    public void setLastUpdateUser(String lastUpdateUser) {
+        this.lastUpdateUser = lastUpdateUser;
     }
     
     

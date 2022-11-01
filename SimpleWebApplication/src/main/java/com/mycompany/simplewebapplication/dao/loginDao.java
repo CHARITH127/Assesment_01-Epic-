@@ -5,6 +5,7 @@
 package com.mycompany.simplewebapplication.dao;
 
 import com.mycompany.simplewebapplication.Entity.Customer;
+import com.mycompany.simplewebapplication.Util.EncriptionCode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,17 +17,28 @@ import java.sql.SQLException;
  */
 public class loginDao {
 
-    public boolean searchCustomer(String userId,String password, Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("select * from Customer where userId=? and password=?");
-        statement.setObject(1, userId);
-        statement.setObject(2, password);
+    EncriptionCode encriptionCode =new EncriptionCode();
+    
+    public boolean searchCustomer(String userName,String password, Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("select * from Customer where userName=?");
+        statement.setObject(1, userName);
         ResultSet rst = statement.executeQuery();
 
         if (rst.next()) {
-            return true;
+            
+            String encriptedPassword = rst.getString(6);
+            String decript = encriptionCode.decription(encriptedPassword);
+            if (password.equals(decript)) {
+                return true;
+            }else{
+                return false;
+            }
+            
         } else {
             return false;
         }
     }
+    
+    
 
 }

@@ -3,7 +3,7 @@ $("#btn_login_button").click(function () {
     let password = $("#login_password").val();
 
     loginObj = {
-        userId:userName,
+        userName:userName,
         userPassword:password,
     }
 
@@ -16,8 +16,10 @@ $("#btn_login_button").click(function () {
             if (res.message=="true"){
                 $("#loginPage").css("display", "none");
                 $("#customerPageContext").css("display", "block");
+                $("#login_user_name").val("");
+                $("#login_password").val("");
             }else {
-                alert("wrong password");
+                swal("Error to Login!", "Incorrect user or password!", "error");
             }
         }
     })

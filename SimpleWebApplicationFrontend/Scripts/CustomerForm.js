@@ -1,5 +1,45 @@
+
+/*----- show hide password function start--------*/
+function password_show_hide() {
+    let x = document.getElementById("password");
+    let show_eye = document.getElementById("show_eye");
+    let hide_eye = document.getElementById("hide_eye");
+    hide_eye.classList.remove("d-none");
+    if (x.type === "password") {
+        x.type = "text";
+        show_eye.style.display = "none";
+        hide_eye.style.display = "block";
+    } else {
+        x.type = "password";
+        show_eye.style.display = "block";
+        hide_eye.style.display = "none";
+    }
+}
+/*----- show hide password function end--------*/
+
+/*----- logout ------------*/
+$(".logoutContainer").click(function () {
+    swal({
+        title: "Are you sure?",
+        text: "Do you really want to logout!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $("#loginPage").css("display", "block");
+                $("#customerPageContext").css("display", "none");
+            } else {
+                $("#loginPage").css("display", "none");
+                $("#customerPageContext").css("display", "block");
+            }
+        });
+})
+
 /*-----------------loading all customers---------------*/
 async function loadAllCustomers() {
+
     $(".customerTableBody").empty();
     $.ajax({
         url: "http://localhost:8080/SimpleWebApplication/customer?options=getAll",
@@ -9,10 +49,11 @@ async function loadAllCustomers() {
                 let row = `<tr><td>${cust.userID}</td><td>${cust.userName}</td><td>${cust.address}</td><td>${cust.email}</td><td>${cust.telephoneNumber}</td><td>${cust.password}</td></tr>`;
                 $(".customerTableBody").append(row)
             }
+            $('#customerTabele').DataTable();
         }
     });
-}
 
+}
 loadAllCustomers();
 
 /*-----------------save customers---------------*/
@@ -40,39 +81,19 @@ async function saveCustomer() {
         data: JSON.stringify(customer),
         success: function (resp) {
             if (resp.message == "Successfully Added") {
-                alert("Successfully add the Customer");
+                swal("Good job!", "Successfully add the Customer!", "success");
                 loadAllCustomers();
                 clearAll();
                 $('#btnCustomerSave').prop('disabled', true);
                 $('#btnUpdateCustomer').prop('disabled', true);
             } else {
-                alert("Can't add the Customer");
+                swal("Error request!", "Fail to add the customer!", "error");
+                $('#btnCustomerSave').prop('disabled', true);
+                $('#btnUpdateCustomer').prop('disabled', true);
             }
         }
     })
 }
-
-$("#btnSearchCustomer").click(function () {
-    let userId = $("#userId").val();
-    $.ajax({
-        url:"http://localhost:8080/SimpleWebApplication/customer?options=search&userId="+userId,
-        method:"GET",
-        success:function (res) {
-            if (res.message == "null") {
-                alert("Can't find such a customer");
-            }else {
-                $("#userId").val(res.data.userID);
-                $("#userName").val(res.data.userName);
-                $("#address").val(res.data.address);
-                $("#email").val(res.data.email);
-                $("#telephoneNumber").val(res.data.telephoneNumber);
-                $("#password").val(res.data.password);
-            }
-        }
-    })
-})
-
-
 $("#btnCustomerSave").click(function () {
     saveCustomer();
 })
@@ -84,14 +105,12 @@ $("#customerTabele").click(function (e) {
     let clicked_userAddress = $(e.target).closest('tr').find('td').eq(2).html();
     let clicked_userEmail = $(e.target).closest('tr').find('td').eq(3).html();
     let clicked_userTelephoneNumber = $(e.target).closest('tr').find('td').eq(4).html();
-    let clicked_userPassword = $(e.target).closest('tr').find('td').eq(5).html();
 
     $("#userId").val(clicked_userId);
     $("#userName").val(clicked_userName);
     $("#address").val(clicked_userAddress);
     $("#email").val(clicked_userEmail);
     $("#telephoneNumber").val(clicked_userTelephoneNumber);
-    $("#password").val(clicked_userPassword);
 })
 
 /*-----------------update customers---------------*/
@@ -122,13 +141,15 @@ $("#btnUpdateCustomer").click(function () {
             data: JSON.stringify(customer),
             success: function (resp) {
                 if (resp.message == "Successfully Updated") {
-                    alert("Successfully Update the Customer");
+                    swal("Good job!", "Successfully Update the Customer!", "success");
                     loadAllCustomers();
                     clearAll();
                     $('#btnCustomerSave').prop('disabled', true);
                     $('#btnUpdateCustomer').prop('disabled', true);
                 } else {
-                    alert("Can't update the Customer");
+                    swal("Error request!", "Fail to update the customer!", "error");
+                    $('#btnCustomerSave').prop('disabled', true);
+                    $('#btnUpdateCustomer').prop('disabled', true);
                 }
             }
         })
@@ -144,11 +165,11 @@ $("#btnDeleteCustomer").click(function () {
         method: "DELETE",
         success: function (resp) {
             if (resp.message == "Successfully deleted") {
-                alert("Successfully deleted the Customer");
+                swal("Good job!", "Successfully deleted the customer!", "success");
                 loadAllCustomers();
                 clearAll()
             } else {
-                alert("Can't delete the Customer");
+                swal("Error request!", "Fail to delete the customer!", "error");
             }
         }
     })
@@ -162,6 +183,7 @@ function clearAll() {
     $("#email").val("");
     $("#telephoneNumber").val("");
     $("#password").val("");
+    $("#confirmPassword").val("");
 }
 
 /*------------ validation --------------*/
@@ -226,8 +248,28 @@ function validation() {
                                                                             $("#password").css('border-color', '#04db14');
                                                                             $("#password").css('box-shadow', '0 0 0 0.25rem rgb(13 110 253 / 25%)');
                                                                             $("#password").css('color', '#04db14');
-                                                                            $('#btnCustomerSave').prop('disabled', false);
-                                                                            $('#btnUpdateCustomer').prop('disabled', false);
+
+                                                                            $("#confirmPassword").focus();
+                                                                            $("#confirmPassword").keyup(function (e) {
+
+                                                                                let checkingPassword = $("#password").val();
+                                                                                if (checkingPassword == $("#confirmPassword").val()) {
+                                                                                    $("#confirmPassword").css('border-color', '#04db14');
+                                                                                    $("#confirmPassword").css('box-shadow', '0 0 0 0.25rem rgb(13 110 253 / 25%)');
+                                                                                    $("#confirmPassword").css('color', '#04db14');
+                                                                                    $('#btnCustomerSave').prop('disabled', false);
+                                                                                    $('#btnUpdateCustomer').prop('disabled', false);
+
+                                                                                }else {
+                                                                                    $("#confirmPassword").css('border-color', '#ff0202');
+                                                                                    $("#confirmPassword").css('box-shadow', '0 0 0 0.25rem rgb(13 110 253 / 25%)');
+                                                                                    $("#confirmPassword").css('color', '#ff0202');
+                                                                                    $('#btnCustomerSave').prop('disabled', true);
+                                                                                    $('#btnUpdateCustomer').prop('disabled', true);
+                                                                                }
+                                                                            })
+
+
                                                                         }else {
                                                                             $("#password").css('border-color', '#ff0202');
                                                                             $("#password").css('box-shadow', '0 0 0 0.25rem rgb(13 110 253 / 25%)');

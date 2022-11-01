@@ -1,5 +1,4 @@
 /*--------- login page starts -----------*/
-
 .form_container {
     display: flex;
     flex-wrap: wrap;
@@ -99,32 +98,32 @@
 .login_button_container p span {
     color: #1776ED;
 }
-
-
-
+/*#loginPage{display: none}*/
 /*--------- login page ends -----------*/
 
 /*---------- Customer page starts -----*/
-
 .customerFormCover{
-    height: 72%;
-    width: 73%;
+    height: 99%;
+    width: 85%;
     background-color: #fff;
     border-radius: 2.3rem;
     padding: 1.5rem;
 }
-
 .fieldContainers{
     width: 50%;
 }
-
 .buttonContainer{
     margin-left: 1.4rem;
 }
-
 #customerPageContext{
     display: none;
 }
-
-
+.hideIconContainer{
+    height: 100%;
+}
+.logoutContainer{
+    width: fit-content;
+    cursor: pointer;
+    color: red;
+}
 /*---------- Customer page ends -------*/
